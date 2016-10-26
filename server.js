@@ -2,7 +2,7 @@
 // that will send back the index.html file on a GET request to '/'
 // it should then send back jsonData on a GET to /data
 
-var jsonData = {count: 12, message: 'hey'};
+var jsonData = {count: 12, message: 'hey', hitCount: 0};
 
 var express = require('express');
 var app = express();
@@ -14,8 +14,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/data', function(req,res){
-  res.json(jsonData)
+  jsonData.hitCount++;
+  res.json(jsonData);
 });
 
-app.listen(3000);
-console.log('Server started: http://localhost:' + 3000 + '/');
+var port = 3000;
+app.listen(port, function() {
+  console.log('Server started: http://localhost:' + port + '/');
+});
