@@ -1,24 +1,27 @@
-// TODO: create a basic server with express
-// that will send back the index.html file on a GET request to '/'
-// it should then send back jsonData on a GET to /data
-
-var jsonData = {count: 12, message: 'hey', hitCount: 0};
-
+// TODO: make this work.
+// if yuo go to localhost:3000 the app
+// there is expected crud to be working here
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
-var path = require('path');
+var _ = require('lodash');
+
+// express.static will serve everything
+// with in client as a static resource
+// also, it will server the index.html on the
+// root of that directory on a GET to '/'
+app.use(express.static('client'));
+
+// body parser makes it possible to post JSON to the server
+// we can accss data we post on as req.body
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 
-app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+var lions = [];
+var id = 0;
 
-app.get('/data', function(req,res){
-  jsonData.hitCount++;
-  res.json(jsonData);
-});
+// TODO: make the REST routes to perform CRUD on lions
 
-var port = 3000;
-app.listen(port, function() {
-  console.log('Server started: http://localhost:' + port + '/');
-});
+app.listen(3000);
+console.log('on port 3000');
