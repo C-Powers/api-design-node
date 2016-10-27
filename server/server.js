@@ -30,11 +30,22 @@ var lions = [
   "gender": "male"
   }
 ];
-var id = 0;
 
+var id = 0;
 var updateId = function(req, res, next) {
   // fill this out. this is the route middleware for the ids
   // add id to req.body
+  if(!req.body.id) {
+    if(lions.length == 0 ) {
+      id = 0;
+      id++;
+    } else {
+      id = lions.length;
+      id++;
+    }
+    req.body.id=id + '';
+  }
+  next();
 };
 
 app.use(morgan('dev'))
@@ -42,10 +53,17 @@ app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-
 app.param('id', function(req, res, next, id) {
-  // fill this out to find the lion based off the id
-  // and attach it to req.lion. Rember to call next()
+  lions.map(function(lion) {
+    if(lion.id == req.params.id) {
+      req.lion=lion;
+      next();
+    }
+  });
+
+  if(!req.lion){
+    res.send("Do you have a lion with that id?")
+  }
 });
 
 app.get('/lions', function(req, res){
@@ -53,7 +71,8 @@ app.get('/lions', function(req, res){
 });
 
 app.get('/lions/:id', function(req, res){
-  // use req.lion
+  console.log(req.lion, "a lion")
+  lion = req.lion;
   res.json(lion || {});
 });
 
@@ -64,7 +83,6 @@ app.post('/lions', updateId, function(req, res) {
 
   res.json(lion);
 });
-
 
 app.put('/lions/:id', function(req, res) {
   var update = req.body;
@@ -81,5 +99,27 @@ app.put('/lions/:id', function(req, res) {
   }
 });
 
+app.use(function(err,req,res,next) {
+  if(err) {
+    res.status(500).send(err);
+  }
+})
+
 app.listen(3000);
 console.log('on port 3000');
+
+
+/*
+  our middleware:
+  cb = [
+  morgan,
+  express,
+  bp1,
+  bp2,
+  param,
+  [get, get, post, put],
+  error
+]
+
+
+*/
