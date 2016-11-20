@@ -50,6 +50,53 @@ tigerRouter.param('id', function(req, res, next, id) {
   }
 });
 
+/*
+  This is a way to combined all routes into one,
+  with their respective HTTP verbs.
+  The old way is shown below, commented out.
+*/
+
+tigerRouter.route('/')
+  .get(function(req, res) {
+    console.log('------ rawr, tigers! ------')
+    res.json(tigers);
+  })
+  .post(updateId, function(req, res) {
+    var tiger = req.body;
+    tigers.push(tiger);
+    res.json(tiger);
+  });
+
+
+tigerRouter.route('/:id')
+  .get(function(req, res){
+    console.log(req.tiger, "a tiger")
+    tiger = req.tiger;
+    res.json(tiger || {});
+  })
+  .delete(function(req, res) {
+    var tiger = _.findIndex(tigers, {id: req.params.id});
+    tigers.splice(tiger, 1);
+
+    res.json(req.tiger);
+  })
+  .put(function(req, res) {
+    var update = req.body;
+    if (update.id) {
+      delete update.id
+    }
+    
+    var tiger = _.findIndex(tigers, {id: req.params.id});
+    if (!tigers[tiger]) {
+      res.send();
+    } else {
+      var updatedtiger = _.assign(tigers[tiger], update);
+      res.json(updatedtiger);
+    }
+  });
+
+
+/*
 tigerRouter.get('/', function(req, res){
   console.log('------ rawr, tigers! ------')
   res.json(tigers);
@@ -83,6 +130,5 @@ tigerRouter.put('/:id', function(req, res) {
     res.json(updatedtiger);
   }
 });
-
-
+*/
 module.exports = tigerRouter;
