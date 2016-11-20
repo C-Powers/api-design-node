@@ -72,7 +72,7 @@ tigerRouter.route('/')
 tigerRouter.route('/:id')
   .get(function(req, res){
     console.log(req.tiger, "a tiger")
-    tiger = req.tiger;
+    var tiger = req.tiger;
     res.json(tiger || {});
   })
   .delete(function(req, res) {

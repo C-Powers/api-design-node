@@ -21,13 +21,12 @@ We can make our own middleware SUPER easily.
 This is a tack on to what morgan does.
 What we see in the nodemon console is morgan logging
 some useful info. What if we wanted to log the POSTed body?
-*/
 
 app.use(function (req, res, next) {
   console.log("-- the body -- ", req.body);
   next();
 })
-
+*/
 
 // this is called mounting. when ever a req comes in for
 // '/lion' we want to use this router
@@ -41,8 +40,11 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.listen(3000);
-console.log('on port 3000');
+/*we're getting rid of app.listen and putting it into
+  index.js in the BASE_DIR. This lets us play with
+  fun testing mumbo jumbo (soon to be learned)
+*/
+module.exports = app;
 
 /*
   our middleware:

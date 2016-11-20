@@ -48,12 +48,6 @@ lionRouter.param('id', function(req, res, next, id) {
   }
 });
 
-/*
-  This is a way to combined all routes into one,
-  with their respective HTTP verbs.
-  The old way is shown below, commented out.
-*/
-
 lionRouter.route('/')
   .get(function(req, res) {
     res.json(lions);
@@ -68,7 +62,7 @@ lionRouter.route('/')
 lionRouter.route('/:id')
   .get(function(req, res){
     console.log(req.lion, "a lion")
-    lion = req.lion;
+    var lion = req.lion;
     res.json(lion || {});
   })
   .delete(function(req, res) {
@@ -92,40 +86,4 @@ lionRouter.route('/:id')
     }
   });
 
-
-/*
-lionRouter.get('/', function(req, res){
-  console.log('------ rawr, lions! ------')
-  res.json(lions);
-});
-
-lionRouter.get('/:id', function(req, res){
-  console.log(req.lion, "a lion")
-  lion = req.lion;
-  res.json(lion || {});
-});
-
-lionRouter.post('/', updateId, function(req, res) {
-  var lion = req.body;
-
-  lions.push(lion);
-
-  res.json(lion);
-});
-
-lionRouter.put('/:id', function(req, res) {
-  var update = req.body;
-  if (update.id) {
-    delete update.id
-  }
-
-  var lion = _.findIndex(lions, {id: req.params.id});
-  if (!lions[lion]) {
-    res.send();
-  } else {
-    var updatedlion = _.assign(lions[lion], update);
-    res.json(updatedlion);
-  }
-});
-*/
 module.exports = lionRouter;
