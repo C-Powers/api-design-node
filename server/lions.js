@@ -46,17 +46,17 @@ lionRouter.param('id', function(req, res, next, id) {
   }
 });
 
-lionRouter.get('/lions', function(req, res){
+lionRouter.get('/', function(req, res){
   res.json(lions);
 });
 
-lionRouter.get('/lions/:id', function(req, res){
+lionRouter.get('/:id', function(req, res){
   console.log(req.lion, "a lion")
   lion = req.lion;
   res.json(lion || {});
 });
 
-lionRouter.post('/lions', updateId, function(req, res) {
+lionRouter.post('/', updateId, function(req, res) {
   var lion = req.body;
 
   lions.push(lion);
@@ -64,7 +64,7 @@ lionRouter.post('/lions', updateId, function(req, res) {
   res.json(lion);
 });
 
-lionRouter.put('/lions/:id', function(req, res) {
+lionRouter.put('/:id', function(req, res) {
   var update = req.body;
   if (update.id) {
     delete update.id
