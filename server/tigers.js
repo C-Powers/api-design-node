@@ -1,3 +1,4 @@
+'use strict'
 // TODO: make a new router for the tigers resource
 // and make some REST routes for it, exactly like for tigers
 // make a middleware that just logs the word 'tiger' to the console
@@ -85,7 +86,7 @@ tigerRouter.route('/:id')
     if (update.id) {
       delete update.id
     }
-    
+
     var tiger = _.findIndex(tigers, {id: req.params.id});
     if (!tigers[tiger]) {
       res.send();

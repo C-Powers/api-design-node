@@ -1,3 +1,4 @@
+'use strict'
 // TODO: mount the tigers route with a a new router just for tigers
 // exactly like lions below
 
@@ -14,6 +15,18 @@ app.use(morgan('dev'))
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+/*
+We can make our own middleware SUPER easily.
+This is a tack on to what morgan does.
+What we see in the nodemon console is morgan logging
+some useful info. What if we wanted to log the POSTed body?
+*/
+
+app.use(function (req, res, next) {
+  console.log("-- the body -- ", req.body);
+  next();
+})
 
 
 // this is called mounting. when ever a req comes in for

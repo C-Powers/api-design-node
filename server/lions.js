@@ -1,7 +1,5 @@
-// TODO: make a new router for the lions resource
-// and make some REST routes for it, exactly like for lions
-// make a middleware that just logs the word 'lion' to the console
-// when a request comes in to the server
+'use strict'
+
 var lionRouter = require('express').Router();
 var _ = require('lodash');
 
