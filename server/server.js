@@ -1,60 +1,13 @@
-'use strict'
-// TODO: mount the tigers route with a a new router just for tigers
-// exactly like lions below
-
 var express = require('express');
-var bodyParser = require('body-parser');
 var app = express();
-var _ = require('lodash');
-var morgan = require('morgan');
+var api = require('./api/api');
 
-var lionRouter = require('./lions');
-var tigerRouter = require('./tigers');
+// setup the app middlware
+require('./middleware/appMiddlware')(app);
 
-app.use(morgan('dev'))
-app.use(express.static('client'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+// setup the api
+app.use('/api/', api);
+// set up global error handling
 
-/*
-We can make our own middleware SUPER easily.
-This is a tack on to what morgan does.
-What we see in the nodemon console is morgan logging
-some useful info. What if we wanted to log the POSTed body?
-
-app.use(function (req, res, next) {
-  console.log("-- the body -- ", req.body);
-  next();
-})
-*/
-
-// this is called mounting. when ever a req comes in for
-// '/lion' we want to use this router
-app.use('/lions', lionRouter)
-app.use('/tigers', tigerRouter)
-
-app.use(function(err, req, res, next) {
-  if (err) {
-    console.log(err.message);
-    res.status(500).send(err);
-  }
-});
-
-/*we're getting rid of app.listen and putting it into
-  index.js in the BASE_DIR. This lets us play with
-  fun testing mumbo jumbo (soon to be learned)
-*/
+// export the app for testing
 module.exports = app;
-
-/*
-  our middleware:
-  cb = [
-  morgan,
-  express,
-  bp1,
-  bp2,
-  param,
-  [get, get, post, put],
-  error
-]
-*/
