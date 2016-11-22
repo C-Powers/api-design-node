@@ -1,3 +1,4 @@
+'use strict'
 // no var needed here, colors will attached colors
 // to String.prototype
 require('colors');
